@@ -18,6 +18,10 @@
   font-weight: bold;
   background-color: rgb(189 236 183);
 }
+[class^="player"].winner {
+  background-color: #ffb6b6;
+  box-shadow: 0px 0px 20px #959595;
+}
 .dice.oops {
   font-weight: bold;
   color: #f00;
