@@ -43,7 +43,7 @@ rollDice.btns.roll.addEventListener('click', function(){
 
 // dice hold Event
 rollDice.btns.hold.addEventListener('click', function(){
-  winnerCheck(rollDice.player[rollDice.turn].current.textContent)
+  winnerCheck(scoreSum())
   turnChange()
 });
 
@@ -60,6 +60,13 @@ function turnChange(num){
     rollDice.turn = num
   }
   document.querySelector('.player' + rollDice.turn).classList.add('turn')
+}
+
+function scoreSum(){
+  let sumScore = Number(rollDice.player[rollDice.turn].total.textContent) + Number(rollDice.player[rollDice.turn].current.textContent)
+  rollDice.player[rollDice.turn].current.textContent = 0
+  rollDice.player[rollDice.turn].total.textContent = sumScore
+  return sumScore;
 }
 
 function winnerCheck(totalScore){
