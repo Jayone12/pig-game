@@ -72,5 +72,7 @@ function scoreSum(){
 function winnerCheck(totalScore){
   if (totalScore >= Number(rollDice.winnerScoreEl.value)) {
     document.querySelector('.player' + rollDice.turn).querySelector('.name').textContent += ' - WINNER !!!'
+    rollDice.btns.roll.hidden = true
+    rollDice.btns.hold.hidden = true
   }
 }
