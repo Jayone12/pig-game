@@ -28,7 +28,7 @@ const rollDice = {
 
 // dice roll event
 rollDice.btns.roll.addEventListener('click', function(){
-  const rollResult = Math.floor(Math.random() * 6)
+  const rollResult = Math.floor(Math.random() * 6)  // 랜덤 주사위 값을 반환 받을 함수 필요
   rollDice.winnerScoreEl.disabled = true
   rollDice.diceNum.textContent = rollResult
   if (rollResult == 0) {
@@ -36,6 +36,7 @@ rollDice.btns.roll.addEventListener('click', function(){
     setTimeout(function(){
       rollDice.dice.classList.remove('oops')
     }, 1000)
+    turnChange()
   }
   rollDice.player[rollDice.turn].current.textContent = Number(rollDice.player[rollDice.turn].current.textContent) + rollResult;
 });
@@ -43,7 +44,23 @@ rollDice.btns.roll.addEventListener('click', function(){
 // dice hold Event
 rollDice.btns.hold.addEventListener('click', function(){
   winnerCheck(rollDice.player[rollDice.turn].current.textContent)
+  turnChange()
 });
+
+function turnChange(num){
+  let playerPanels = document.querySelectorAll('[class^="player"]')
+  for (let i = 0; i < playerPanels.length; i++) {
+    playerPanels[i].classList.remove('turn')
+  }
+  rollDice.player[rollDice.turn].current.textContent = 0
+
+  if (num === undefined) {
+    rollDice.turn === 1 ? rollDice.turn = 2 : rollDice.turn = 1
+  } else {
+    rollDice.turn = num
+  }
+  document.querySelector('.player' + rollDice.turn).classList.add('turn')
+}
 
 function winnerCheck(totalScore){
   if (totalScore >= Number(rollDice.winnerScoreEl.value)) {
