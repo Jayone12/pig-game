@@ -9,6 +9,39 @@
  <title>Pig Dice Game</title>
 </head>
 <body>
- 
+  <section class="roll-board">
+    <h1 class="title">Roll Dice Game</h1>
+
+    <div class="dice">주사위 값 : <span class="num"></span></div>
+
+    <div class="panel">
+      <div class="player1 turn">
+        <p class="name">PLAYER 1</p>
+        <div class="total-score">
+          total : <span class="num">0</span>
+        </div>
+        <div class="current-score">
+          current : <span class="num">0</span>
+        </div>
+      </div>
+      <div class="player2">
+        <p class="name">PLAYER 2</p>
+        <div class="total-score">
+          total : <span class="num">0</span>
+        </div>
+        <div class="current-score">
+          current : <span class="num">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="control-panel">
+      <button type="button" class="btn-start">RESTART</button>
+      <button type="button" class="btn-roll">ROLL DICE</button>
+      <button type="button" class="btn-hold">HOLD</button>
+
+      <p>목표 스코어 : <input type="text" class="winner-score" value="100"></p>
+    </div>
+  </section>
 </body>
 </html>
