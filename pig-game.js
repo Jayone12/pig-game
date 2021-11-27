@@ -39,3 +39,14 @@ rollDice.btns.roll.addEventListener('click', function(){
   }
   rollDice.player[rollDice.turn].current.textContent = Number(rollDice.player[rollDice.turn].current.textContent) + rollResult;
 });
+
+// dice hold Event
+rollDice.btns.hold.addEventListener('click', function(){
+  winnerCheck(rollDice.player[rollDice.turn].current.textContent)
+});
+
+function winnerCheck(totalScore){
+  if (totalScore >= Number(rollDice.winnerScoreEl.value)) {
+    document.querySelector('.player' + rollDice.turn).querySelector('.name').textContent += ' - WINNER !!!'
+  }
+}
