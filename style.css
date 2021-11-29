@@ -1,0 +1,43 @@
+.roll-board {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.role {
+  text-align: left;
+}
+.role h2 {
+  font-size: 20px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+.role ul {
+  margin: 0;
+}
+[class^="player"].turn {
+  font-weight: bold;
+  background-color: rgb(189 236 183);
+}
+[class^="player"].winner {
+  background-color: #ffb6b6;
+  box-shadow: 0px 0px 20px #959595;
+}
+.dice.oops {
+  font-weight: bold;
+  color: #f00;
+}
+.panel {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+}
+.panel > div {
+  border: 1px solid #bbb;
+  padding: 30px 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  border-radius: 15px;
+}
+.panel .name {
+  margin-top: 0;
+}
