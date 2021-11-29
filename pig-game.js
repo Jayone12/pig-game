@@ -1,91 +1,117 @@
-'use strict';
-let player1Arr = [];
-let player2Arr = [];
-let player1Total = [];
-let player2Total = [];
+"use strict";
 
-const rollBtn = document.querySelector('.roll-dice-btn');
-const holdBtn = document.querySelector('.hold-btn');
-const p1CurrentScore = document.querySelector('.player-1 .player-current-score');
-const p2CurrentScore = document.querySelector('.player-2 .player-current-score');
-const p1totalScore = document.querySelector('.player-1 .player-total-score');
-const p2totalScore = document.querySelector('.player-2 .player-total-score');
-const playing = document.querySelector('.playing');
-const player1 = document.querySelector('.player-1');
-const player2 = document.querySelector('.player-2');
+/**
+ * --------------------
+ *    Roll Dice Game
+ * --------------------
+ */
+const rollDice = {
+  'dice' : document.querySelector('.dice'),                   // 주사위
+  'diceNum' : document.querySelector('.dice .num'),           // 주사위 값을 보여줄 요소
+  'winnerScoreEl' : document.querySelector('.winner-score'),  // 승리할 최종 값을 받을 input
+  'turn' : 1,                                                 // 누구 턴인지 확인
+  'btns' : {
+    'roll' : document.querySelector('.btn-roll'),             // Roll Dice Button
+    'hold' : document.querySelector('.btn-hold'),             // Hold Button
+  },
+  'player' : {                                                // 플래이어 점수 담을 객체
+    1:{
+      'total' : document.querySelector('.player1 .total-score .num'),
+      'current' : document.querySelector('.player1 .current-score .num'),
+    },
+    2:{
+      'total' : document.querySelector('.player2 .total-score .num'),
+      'current' : document.querySelector('.player2 .current-score .num'),
+    },
+  },
+  'init' : function(){
+    const self = rollDice;
+    self.diceNum.textContent = 0
+    self.winnerScoreEl.value = 100
+    self.winnerScoreEl.disabled = false
+    self.turn = 1
+    self.turnChange(1)
+    self.btns.roll.hidden = false
+    self.btns.hold.hidden = false
+    for (let i = 0; i < 2; i++) {
+      self.player[i + 1].total.textContent = 0
+      self.player[i + 1].current.textContent = 0
+      document.querySelector('.player' + (i + 1) + ' .name').textContent = 'PLAYER' + ' ' + (i + 1)
+      document.querySelector('.player' + (i + 1)).className = 'player' + (i + 1)
+    }
+    document.querySelector('.player1').classList.add('turn')
+  },
+  'turnChange' : null,
+  'scoreSum' : null,
+  'winnerCheck' : null,
+  'diceRoll' : null,
+};
 
-
-rollBtn.addEventListener("click", () => {
- dice(6);
- console.log(player1Arr);
- console.log(player2Arr);
+// dice roll event
+rollDice.btns.roll.addEventListener('click', function(){
+  const rollResult = rollDice.diceRoll()
+  rollDice.winnerScoreEl.disabled = true
+  rollDice.diceNum.textContent = rollResult
+  if (rollResult == 0) {
+    rollDice.dice.classList.add('oops')
+    setTimeout(function(){
+      rollDice.dice.classList.remove('oops')
+    }, 1000)
+    rollDice.turnChange()
+  }
+  rollDice.player[rollDice.turn].current.textContent = Number(rollDice.player[rollDice.turn].current.textContent) + rollResult;
 });
 
-holdBtn.addEventListener("click", () => {
-  hold();
-})
+// dice hold Event
+rollDice.btns.hold.addEventListener('click', function(){
+  const endGame = rollDice.winnerCheck(rollDice.scoreSum())
+  if (endGame) return false
+  rollDice.turnChange()
+});
 
-function dice(number) {
- let diceNumber = Math.floor(Math.random() * number) + 1;
- if (diceNumber !== 1) {
-  if (player1.classList[1] === 'playing') {
-   player1Arr.push(diceNumber);
-   p1CurrentScore.innerHTML = player1Arr.reduce((acc, cur) => {
-    return acc + cur;
-   }, 0);
-  } else if(player2.classList[1] === 'playing'){
-   player2Arr.push(diceNumber);
-   p2CurrentScore.innerHTML = player2Arr.reduce((acc, cur) => {
-    return acc + cur;
-   }, 0);
+// dice start Event
+document.querySelector('.btn-start').addEventListener('click', rollDice.init)
+
+rollDice.turnChange = function(num){
+  let playerPanels = document.querySelectorAll('[class^="player"]')
+  for (let i = 0; i < playerPanels.length; i++) {
+    playerPanels[i].classList.remove('turn')
   }
- } else {
-  player1Arr = [];
-  player2Arr = [];
-  p1CurrentScore.innerHTML = 0;
-  p2CurrentScore.innerHTML = 0;
-  alert(`주사위 숫자가 ${diceNumber} 입니다.`);
-  hold();
- }
-} 
+  rollDice.player[rollDice.turn].current.textContent = 0
 
-function hold() {
- if (player1.classList[1] === 'playing') {
-  player1Total.push(
-   player1Arr.reduce((acc, cur) => {
-    return acc + cur;
-   }, 0)
-  );
-   p1totalScore.innerHTML = player1Total.reduce((acc, cur) => {
-    return acc + cur;
-   }, 0);
-  p1CurrentScore.innerHTML = 0;
-  
-  } else if(player2.classList[1] === 'playing'){
-   player2Total.push(
-   player2Arr.reduce((acc, cur) => {
-    return acc + cur;
-   }, 0)
-  );
-   p2totalScore.innerHTML = player2Total.reduce((acc, cur) => {
-    return acc + cur;
-   }, 0);
-  
-   p2CurrentScore.innerHTML = 0;
- }
+  if (num === undefined) {
+    rollDice.turn === 1 ? rollDice.turn = 2 : rollDice.turn = 1
+  } else {
+    rollDice.turn = num
+  }
+  document.querySelector('.player' + rollDice.turn).classList.add('turn')
+}
 
- if (p1totalScore.innerHTML >= 100) {
-  alert(`player 1 winner`);
- } else if (p2totalScore.innerHTML >= 100) {
-  alert(`player 2 winner`);
- };
+rollDice.scoreSum = function(){
+  let sumScore = Number(rollDice.player[rollDice.turn].total.textContent) + Number(rollDice.player[rollDice.turn].current.textContent)
+  rollDice.player[rollDice.turn].current.textContent = 0
+  rollDice.player[rollDice.turn].total.textContent = sumScore
+  return sumScore;
+}
 
- player1.classList.toggle('playing');
- if (player1.classList.toggle) {
-  player2.classList.toggle('playing');
- }
-  player1Arr = [];
-  player2Arr = [];
-  p1CurrentScore.innerHTML = 0;
-  p2CurrentScore.innerHTML = 0;
-};
+rollDice.winnerCheck = function(totalScore){
+  if (totalScore >= Number(rollDice.winnerScoreEl.value)) {
+    const tempNum = rollDice.turn === 1 ? 2 : 1
+    document.querySelector('.player' + rollDice.turn).classList.add('winner')
+    document.querySelector('.player' + rollDice.turn).querySelector('.name').textContent += ' - WINNER !!!'
+    rollDice.btns.roll.hidden = true
+    rollDice.btns.hold.hidden = true
+    return true;
+  }
+}
+
+rollDice.diceRoll = function(){
+  let currentScore = 0;
+  const dice = Math.trunc(Math.random() * 6) + 1;
+  if (dice !== 1) {
+    currentScore += dice;
+  } else {
+    currentScore = 0;
+  }
+  return currentScore;
+}

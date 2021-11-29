@@ -9,21 +9,48 @@
  <script defer src="pig-game.js"></script>
 </head>
 <body>
- <div class="wrapper">
-  <div class="player-1 playing">
-   <h1 class="player-name">Player 1</h1>
-    <div class="player-total-score">0</div>
-    <div class="player-current-score">0</div>
-  </div>
-  <div class="player-2">
-   <h1 class="player-name">Player 2</h1>
-    <div class="player-total-score">0</div>
-    <div class="player-current-score">0</div>
-  </div>
-  <div class="buttons">
-   <button class="roll-dice-btn">Roll Dice</button>
-   <button class="hold-btn">Hold</button>
-  </div>
- </div>
+  <section class="roll-board">
+    <h1 class="title">Roll Dice Game</h1>
+    <div class="dice">주사위 값 : <span class="num"></span></div>
+
+    <div class="role">
+      <h2>- Rule</h2>
+      <ul>
+        <li>주사위 숫자가 0 이 나오기 전까지 점수를 합친다.<br> (주사위 값은 1 ~ 6 사이 랜덤)</li>
+        <li>만일 0 이 나오면 모아둔 점수를 모두 잃는다.</li>
+        <li>0 이 나오기 전에 HOLD를 클릭하면 total 점수로 가산된다.</li>
+        <li>먼저 total 점수가 목표 스코어를 넘어서면 해당 PLAYER가 이긴다.</li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <div class="player1 turn">
+        <p class="name">PLAYER 1</p>
+        <div class="total-score">
+          Total : <span class="num">0</span>
+        </div>
+        <div class="current-score">
+          Current : <span class="num">0</span>
+        </div>
+      </div>
+      <div class="player2">
+        <p class="name">PLAYER 2</p>
+        <div class="total-score">
+          Total : <span class="num">0</span>
+        </div>
+        <div class="current-score">
+          Current : <span class="num">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="control-panel">
+      <button type="button" class="btn-start">RESTART</button>
+      <button type="button" class="btn-roll">ROLL DICE</button>
+      <button type="button" class="btn-hold">HOLD</button>
+
+      <p>목표 스코어 : <input type="text" class="winner-score" value="100"></p>
+    </div>
+  </section>
 </body>
 </html>
